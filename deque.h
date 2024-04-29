@@ -1,7 +1,7 @@
 #ifndef DEQUE_H
 #define DEQUE_H
 
-class deque{
+class Deque{
  private:
   int** blockmap;
   int frontBlock;

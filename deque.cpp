@@ -7,7 +7,7 @@
  * ceque.cpp
  */
 
-
+#include <iostream>
 #include "deque.h"
 
 Deque::Deque(){
@@ -34,11 +34,12 @@ void Deque::expandFront(){
 	newBlockmap[i + 1] = blockmap[i];
       delete[] blockmap;
       blockmap = newBlockmap;
-      numBlocks ++;
+      numBlocks++;
+      frontBlock++;
     }
     frontBlock--;
     frontIndex = blockSize - 1;
-    blockmap[frontBlock] = new int[blockSize];
+    blockmap[frontBlock] = new int[blockSize]();
   }else{
     frontIndex--;
   }
@@ -58,7 +59,105 @@ void Deque::expandBack(){
     backIndex = 0;
     blockmap[backBlock] = new int[blockSize];
   }else{
-    backIndex;
+    backIndex++;
   }
 }
 
+void Deque::shrinkFront(){
+  if(numElements == 0)
+    return;
+  if(frontBlock == backBlock && frontIndex == backIndex)
+    return;
+
+  if(blockmap[frontBlock] != NULL){
+    delete[] blockmap[frontBlock];
+    blockmap[frontBlock] = NULL;
+  }
+  frontBlock++;
+  frontIndex = 0;
+}
+
+void Deque::shrinkBack(){
+  if(numElements == 0)
+    return;
+  if(frontBlock == backBlock && frontIndex == backIndex)
+    return;
+
+  if(blockmap[backBlock] != NULL){
+    delete[] blockmap[backBlock];
+    blockmap[backBlock] = NULL;
+  }
+  backBlock--;
+  backIndex = blockSize -1;
+}
+  
+
+int Deque::push_front(int item){
+  if(empty()){
+    blockmap[frontBlock][frontIndex] = item;
+  }else{
+    expandFront();
+    blockmap[frontBlock][frontIndex] = item;
+  }
+  numElements++;
+  return 0;
+}
+
+int Deque::push_back(int item){
+  if(empty()){
+    blockmap[backBlock][backIndex] = item;
+  }else{
+    expandBack();
+    blockmap[backBlock][backIndex] = item;
+  }
+  numElements++;
+  return 0;
+}
+
+int Deque::pop_front(){
+  if(empty()){
+    return -1;
+  }
+  if(frontIndex == blockSize - 1){
+    shrinkFront();
+  }else{
+    frontIndex++;
+  }
+  numElements--;
+  return 0;
+}
+
+int Deque::pop_back(){
+  if(empty()){
+    return -1;
+  }
+  if(backIndex == 0){
+    shrinkBack();
+  }else{
+    backIndex--;
+  }
+  numElements--;
+  return 0;
+}
+
+int Deque::front(){
+  return blockmap[frontBlock][frontIndex];
+}
+
+int Deque::back(){
+  return blockmap[backBlock][backIndex];
+}
+
+bool Deque::empty(){
+  return numElements == 0;
+}
+
+int Deque::size(){
+  return numElements;
+}
+
+int Deque::operator[](int index){
+  int blockIndex = (frontBlock + (index + frontIndex) / blockSize) % numBlocks;
+  int elementIndex = (index + frontIndex) % blockSize;
+  return blockmap[blockIndex][elementIndex];
+}

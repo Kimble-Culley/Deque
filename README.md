@@ -8,10 +8,12 @@ Design Decisions
     to allow the deque to dynamically grow and shrink as needed. 
 
 Properly Working
-  tbd
+  Push back
+  Pop front 
+  Popback
 
 Challenges/Bugs
-  tbd 
+  No Push front   
 
   How to Run the Program 
     The testing of the deque is automated. Compilation and execution is all that is needed. 

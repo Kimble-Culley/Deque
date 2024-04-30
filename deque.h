@@ -47,10 +47,10 @@ class Deque{
 /**
  * adds element to front of deque
  * @param int item 
- * @return int 
+ * @return void 
  * @post element is added to the front
  */
-  int push_front(int item);
+  void push_front(int item);
 
 /**
  * adds element to the back of deque

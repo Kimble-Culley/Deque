@@ -18,6 +18,7 @@ int main() {
   Deque deque; // deque class
   int counter = 0; // keeps track of data added to the deque 
 
+  cout << "push_back test of 1000: " << endl;
   // adds data to the back of deque and prints them 
   for(int i = 0; i < 1000; i++){
     deque.push_back(i);
@@ -25,6 +26,8 @@ int main() {
     counter++; 
   }
 
+  cout << endl;
+  cout << "pop_front test of 100: " << endl; 
   // removes data from the front of the deque 
   for(int i = 0; i < 100; i++){
     deque.pop_front();
@@ -35,6 +38,8 @@ int main() {
   for(int i = 0; i < counter; i++){
     cout << " " << deque[i];
   }
+  cout << endl;
+  cout <<"pop_back test of 100: " << endl;
 
   // removes data from the back of the deque 
   for(int i = 0; i < 100; i++){
@@ -46,6 +51,7 @@ int main() {
   for(int i = 0; i < counter; i++){
     cout << " " << deque[i];
   }
-  
+
+  cout << endl;  
   return 0;
 }

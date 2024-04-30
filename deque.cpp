@@ -27,22 +27,18 @@ Deque::~Deque(){
 }
 
 void Deque::expandFront(){
-  if(frontIndex == 0){
-    if(frontBlock == 0){
-      int** newBlockmap = new int*[numBlocks * 2];
-      for(int i = 0; i < numBlocks; i++)
-	newBlockmap[i + 1] = blockmap[i];
-      delete[] blockmap;
-      blockmap = newBlockmap;
-      numBlocks++;
-      frontBlock++;
+  if(frontBlock == 0){
+    int** newBlockmap = new int*[numBlocks * 2];
+    for(int i = 0; i < numBlocks; i++){
+      newBlockmap[i + 1] = blockmap[i];
     }
-    frontBlock--;
-    frontIndex = blockSize - 1;
-    blockmap[frontBlock] = new int[blockSize]();
-  }else{
-    frontIndex--;
+    delete[] blockmap;
+    blockmap = newBlockmap;
+    numBlocks *= 2;
   }
+  frontBlock--;
+  frontIndex = blockSize -1;
+  blockmap[frontBlock] = new int[blockSize];
 }
 
 void Deque::expandBack(){
@@ -92,15 +88,12 @@ void Deque::shrinkBack(){
 }
   
 
-int Deque::push_front(int item){
-  if(empty()){
-    blockmap[frontBlock][frontIndex] = item;
-  }else{
+void Deque::push_front(int item){
+  if(frontIndex == 0){
     expandFront();
-    blockmap[frontBlock][frontIndex] = item;
   }
-  numElements++;
-  return 0;
+  frontIndex--;
+  blockmap[frontBlock][frontIndex] = item;
 }
 
 int Deque::push_back(int item){
